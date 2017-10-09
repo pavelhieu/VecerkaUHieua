@@ -1,0 +1,44 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <QSqlDatabase>
+#include <QSqlTableModel>
+#include <QSqlQuery>
+#include <QDebug>
+#include <QInputDialog>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("../Vecerka/data.sqlite");
+    db.open();
+
+    model_vecerka = new QSqlTableModel(this);
+    model_vecerka->setTable("vecerka");
+    model_vecerka->select();
+
+    ui->tableViewVecerka->setModel(model_vecerka);
+    ui->tableViewVecerka->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pushButtonPridatVecerka_clicked()
+{
+    //pridat novou vecerku
+//    QSqlQuery dotaz;
+//    dotaz.prepare("INSERT INTO vecerka VALUES";
+   getNazevVecerky= QInputDialog::getText(this,"Zadej název","Zadej název");
+   qDebug() << getNazevVecerky;
+}
+
+void MainWindow::on_pushButtonSmazatVecerka_clicked()
+{
+    //smazat vecerku
+}
